@@ -60,6 +60,10 @@ Built with Next.js (App Router), React, TypeScript, Tailwind CSS, and Zustand. T
 - **This is a habit toy, not healthcare.** It doesn't treat eating disorders, anxiety, or anything else. If food is a genuine struggle, please talk to a professional.
 - **Hunger is not a craving to be outsmarted.** If your body needs food, close the app and eat. FakeFoods is for the urges that were never about being hungry.
 
+## License
+
+[MIT](LICENSE) — fork it, remix it, build your own fake city. The only thing we charge is nothing, as usual.
+
 ---
 
 *FakeFoods: all of the dopamine, none of the delivery fee.* 🛵💨
