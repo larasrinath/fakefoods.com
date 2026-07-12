@@ -64,7 +64,7 @@ export default function BrowsePage() {
         )}
 
         {/* cuisine filter */}
-        <div className="mt-5 flex gap-2 overflow-x-auto pb-1 -mx-4 px-4">
+        <div className="mt-5 flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4">
           <button
             onClick={() => setCuisine(null)}
             className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium border ${
