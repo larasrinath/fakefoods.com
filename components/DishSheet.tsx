@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { dishImageSrc } from "@/lib/assets";
 import type { Dish, Restaurant } from "@/lib/types";
 import { computeUnitPrice, useFakeFoods } from "@/lib/store";
 import { money } from "@/lib/format";
@@ -77,7 +78,10 @@ export function DishSheet({
         <FoodArt
           emoji={dish.emoji}
           hue={dish.hue}
-          className="h-40 w-full rounded-t-3xl"
+          imageSrc={dishImageSrc(dish)}
+          imageAlt=""
+          imageFit="contain"
+          className="aspect-square w-full rounded-t-3xl bg-stone-100"
           emojiClassName="text-7xl animate-float-slow"
         />
         <button

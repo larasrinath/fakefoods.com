@@ -2,6 +2,7 @@
 
 import { notFound, useSearchParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import { dishImageSrc, restaurantImageSrc } from "@/lib/assets";
 import { getDish, getRestaurant } from "@/lib/data";
 import type { Dish } from "@/lib/types";
 import { money, priceTier } from "@/lib/format";
@@ -47,6 +48,8 @@ export default function RestaurantPage({
       <FoodArt
         emoji={restaurant.emoji}
         hue={restaurant.hue}
+        imageSrc={restaurantImageSrc(restaurant)}
+        imageAlt=""
         className="h-40 w-full"
         emojiClassName="text-7xl"
       />
@@ -91,6 +94,8 @@ export default function RestaurantPage({
                     <FoodArt
                       emoji={dish.emoji}
                       hue={dish.hue}
+                      imageSrc={dishImageSrc(dish)}
+                      imageAlt=""
                       className="h-20 w-20 rounded-xl"
                       emojiClassName="text-3xl"
                     />

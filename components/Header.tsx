@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import { appLogoMarkSrc } from "@/lib/assets";
 import { useFakeFoods } from "@/lib/store";
 
 export function Header({ back }: { back?: string }) {
@@ -25,8 +27,18 @@ export function Header({ back }: { back?: string }) {
               ←
             </Link>
           )}
-          <Link href="/" className="font-bold text-lg tracking-tight">
-            fake<span className="text-orange-600">foods</span>
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg tracking-tight">
+            <Image
+              src={appLogoMarkSrc}
+              alt=""
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded-lg object-cover"
+              aria-hidden
+            />
+            <span>
+              fake<span className="text-orange-600">foods</span>
+            </span>
           </Link>
         </div>
         <nav className="flex items-center gap-2">
@@ -35,13 +47,6 @@ export function Header({ back }: { back?: string }) {
             className="text-sm text-stone-500 hover:text-stone-800 px-2 py-1"
           >
             about
-          </Link>
-          <Link
-            href="/search"
-            aria-label="Search"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm border border-stone-200 text-lg"
-          >
-            🔍
           </Link>
           <Link
             href="/stats"

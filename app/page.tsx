@@ -2,12 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { dishImageSrc } from "@/lib/assets";
 import { CUISINES, RESTAURANTS } from "@/lib/data";
 import { money, priceTier } from "@/lib/format";
 import { FoodArt } from "@/components/FoodArt";
 import { Header } from "@/components/Header";
 import { CartBar } from "@/components/CartBar";
 import { useFakeFoods } from "@/lib/store";
+import type { Restaurant } from "@/lib/types";
+
+function featuredDishFor(restaurant: Restaurant) {
+  const dishes = restaurant.menu.flatMap((section) => section.items);
+  return dishes.find((dish) => dish.popular) ?? dishes[0];
+}
 
 export default function BrowsePage() {
   const [cuisine, setCuisine] = useState<string | null>(null);
@@ -85,48 +92,59 @@ export default function BrowsePage() {
 
         {/* restaurant cards */}
         <div className="mt-4 flex flex-col gap-4">
-          {restaurants.map((r) => (
-            <Link
-              key={r.id}
-              href={`/r/${r.slug}`}
-              className="overflow-hidden rounded-3xl bg-white border border-stone-200 shadow-sm active:scale-[0.99] transition-transform"
-            >
-              <FoodArt
-                emoji={r.emoji}
-                hue={r.hue}
-                className="h-36 w-full"
-                emojiClassName="text-6xl"
-              />
-              <div className="p-4">
-                <div className="flex items-center justify-between gap-2">
-                  <h2 className="font-bold text-lg">{r.name}</h2>
-                  <span className="flex items-center gap-1 rounded-full bg-stone-100 px-2 py-0.5 text-sm font-semibold">
-                    ⭐ {r.rating}
-                  </span>
+          {restaurants.map((r) => {
+            const featuredDish = featuredDishFor(r);
+
+            return (
+              <Link
+                key={r.id}
+                href={`/r/${r.slug}`}
+                className="overflow-hidden rounded-3xl bg-white border border-stone-200 shadow-sm active:scale-[0.99] transition-transform"
+              >
+                <div className="relative">
+                  <FoodArt
+                    emoji={featuredDish.emoji}
+                    hue={featuredDish.hue}
+                    imageSrc={dishImageSrc(featuredDish)}
+                    imageAlt=""
+                    className="h-56 w-full"
+                    emojiClassName="text-6xl"
+                  />
                 </div>
-                <p className="mt-0.5 text-sm text-stone-500">{r.tagline}</p>
-                <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-stone-500">
-                  <span>{r.cuisine}</span>
-                  <span aria-hidden>·</span>
-                  <span>{priceTier(r.priceTier)}</span>
-                  <span aria-hidden>·</span>
-                  <span>🕐 {r.deliveryMinutes}–{r.deliveryMinutes + 10} min</span>
-                  <span aria-hidden>·</span>
-                  <span>{money(r.deliveryFeeCents)} delivery</span>
-                </div>
-                <div className="mt-2 flex gap-1.5">
-                  {r.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-700"
-                    >
-                      {t}
+                <div className="p-4">
+                  <div className="flex items-center justify-between gap-2">
+                    <h2 className="font-bold text-lg">{r.name}</h2>
+                    <span className="flex items-center gap-1 rounded-full bg-stone-100 px-2 py-0.5 text-sm font-semibold">
+                      ⭐ {r.rating}
                     </span>
-                  ))}
+                  </div>
+                  <p className="mt-0.5 text-sm text-stone-500">{r.tagline}</p>
+                  <p className="mt-1 text-xs font-medium text-stone-400">
+                    Featured: {featuredDish.name}
+                  </p>
+                  <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-stone-500">
+                    <span>{r.cuisine}</span>
+                    <span aria-hidden>·</span>
+                    <span>{priceTier(r.priceTier)}</span>
+                    <span aria-hidden>·</span>
+                    <span>🕐 {r.deliveryMinutes}–{r.deliveryMinutes + 10} min</span>
+                    <span aria-hidden>·</span>
+                    <span>{money(r.deliveryFeeCents)} delivery</span>
+                  </div>
+                  <div className="mt-2 flex gap-1.5">
+                    {r.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-700"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </main>
 
